@@ -1,0 +1,14 @@
+groups:
+  - name: payment-handoff
+    rules:
+      - alert: PaymentHandoffStalled
+        expr: |
+          handoff_pending_total > 0
+          and
+          handoff_oldest_pending_seconds > 120
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: "Payment handoff is stalled"
+          description: "A confirmed payment has waited over 120 seconds for handoff."
